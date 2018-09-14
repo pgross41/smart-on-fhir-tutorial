@@ -1,6 +1,3 @@
-import $ from 'jquery';
-window['jQuery'] = $;
-
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -59,11 +56,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
-      var mkFhir = __webpack_require__(1);
-      var jquery = window['_jQuery'] || window['jQuery'];
+	    var mkFhir = __webpack_require__(1);
+	    var jquery = window['_jQuery'] || window['jQuery'];
 
 	    var defer = function(){
-	        var pr = jquery.Deferred();
+	        pr = jquery.Deferred();
 	        pr.promise = pr.promise();
 	        return pr;
 	    };
@@ -1181,10 +1178,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }, function(err) {def.resolve()});
 	        return def.promise;
 	    }
-
+	    
 	    function drain (searchParams, process, done, fail) {
 	        var ret = adapter.defer();
-
+	        
 	        fhirAPI.search(searchParams).then(function(data){
 	            getNext(data, process).then(function() {
 	                done();
@@ -1195,11 +1192,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            fail(err);
 	        });
 	    };
-
+	    
 	    function fetchAll (searchParams){
 	        var ret = adapter.defer();
 	        var results = [];
-
+	        
 	        drain(
 	            searchParams,
 	            function(entries) {
@@ -1214,13 +1211,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                ret.reject(err);
 	            }
 	        );
-
+	          
 	        return ret.promise;
 	    };
 
 	    function fetchAllWithReferences (searchParams, resolveParams) {
 	        var ret = adapter.defer();
-
+	          
 	        fhirAPI.search(searchParams)  // TODO: THIS IS NOT CORRECT (need fetchAll, but it does not return a bundle yet)
 	            .then(function(results){
 
@@ -1247,7 +1244,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        return refID;
 	                    }
 	                }
-
+	                
 	                function enqueue (bundle,resource,reference) {
 	                  queue.push(function() {
 	                    resolveReference(bundle,resource,reference);
@@ -1291,7 +1288,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }, function(){
 	                ret.reject("Could not fetch search results");
 	            });
-
+	          
 	        return ret.promise;
 	    };
 
@@ -1303,7 +1300,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        client["fetchAllWithReferences"] = fetchAllWithReferences;
 	        return client;
 	    }
-
+	    
 	    module.exports = decorate;
 	}).call(this);
 
@@ -3382,7 +3379,7 @@ module.exports = function (Buffer, Hash) {
     if(!(this instanceof Sha1)) return new Sha1()
     this._w = W
     Hash.call(this, 16*4, 14*4)
-
+  
     this._h = null
     this.init()
   }
@@ -16337,7 +16334,7 @@ module.exports.verify = function(jwtString, secretOrPublicKey, options, callback
   if (options.audience) {
     var audiences = Array.isArray(options.audience)? options.audience : [options.audience];
     var target = Array.isArray(payload.aud) ? payload.aud : [payload.aud];
-
+    
     var match = target.some(function(aud) { return audiences.indexOf(aud) != -1; });
 
     if (!match)
@@ -16840,14 +16837,14 @@ module.exports = function jwa(algorithm) {
             };
         }
     });
-
+    
     if (!process.browser) {
       var windowObj = require('jsdom').jsdom().createWindow();
       jquery = jquery(windowObj);
     }
-
+    
     var defer = function(){
-        var pr = jquery.Deferred();
+        pr = jquery.Deferred();
         pr.promise = pr.promise();
         return pr;
     };
@@ -16937,7 +16934,7 @@ function stripTrailingSlash(str) {
 */
 function getPreviousToken(){
   var token;
-
+  
   if (BBClient.settings.fullSessionStorageSupport) {
     token = sessionStorage.tokenResponse;
     return JSON.parse(token);
@@ -16977,18 +16974,18 @@ function completeCodeFlow(params){
       state: urlParam('state')
     };
   }
-
+  
   var ret = Adapter.get().defer();
   var state = JSON.parse(sessionStorage[params.state]);
 
   if (window.history.replaceState && BBClient.settings.replaceBrowserHistory){
     window.history.replaceState({}, "", window.location.toString().replace(window.location.search, ""));
-  }
+  } 
 
   // Using window.history.pushState to append state to the query param.
   // This will allow session data to be retrieved via the state param.
   if (window.history.pushState && !BBClient.settings.fullSessionStorageSupport) {
-
+    
     var queryParam = window.location.search;
     if (window.location.search.indexOf('state') == -1) {
       // Append state query param to URI for later.
@@ -16997,10 +16994,10 @@ function completeCodeFlow(params){
 
       queryParam += (window.location.search ? '&' : '?');
       queryParam += 'state=' + params.state;
-
-      var url = window.location.protocol + '//' +
-                             window.location.host +
-                             window.location.pathname +
+      
+      var url = window.location.protocol + '//' + 
+                             window.location.host + 
+                             window.location.pathname + 
                              queryParam;
 
       window.history.pushState({}, "", url);
@@ -17122,16 +17119,16 @@ BBClient.settings = {
   // using window.history.replaceState API.
   // Default to true
   replaceBrowserHistory: true,
-
+  
   // When set to true, this variable will fully utilize
   // HTML5 sessionStorage API.
   // Default to true
   // This variable can be overriden to false by setting
   // FHIR.oauth2.settings.fullSessionStorageSupport = false.
-  // When set to false, the sessionStorage will be keyed
+  // When set to false, the sessionStorage will be keyed 
   // by a state variable. This is to allow the embedded IE browser
   // instances instantiated on a single thread to continue to
-  // function without having sessionStorage data shared
+  // function without having sessionStorage data shared 
   // across the embedded IE instances.
   fullSessionStorageSupport: true
 };
@@ -17230,11 +17227,11 @@ BBClient.ready = function(input, callback, errback){
       serviceUrl: state.provider.url,
       patientId: tokenResponse.patient
     };
-
+    
     if (tokenResponse.id_token) {
         var id_token = tokenResponse.id_token;
         var payload = jwt.decode(id_token);
-        fhirClientParams["userId"] = payload["profile"];
+        fhirClientParams["userId"] = payload["profile"]; 
     }
 
     if (tokenResponse.access_token !== undefined) {
@@ -17347,7 +17344,7 @@ BBClient.authorize = function(params, errback){
         console.log("Failed to discover authorization URL given", params);
     };
   }
-
+  
   // prevent inheritance of tokenResponse from parent window
   delete sessionStorage.tokenResponse;
 
@@ -17399,7 +17396,7 @@ BBClient.authorize = function(params, errback){
     if (params.provider.oauth2 == null) {
 
       // Adding state to tokenResponse object
-      if (BBClient.settings.fullSessionStorageSupport) {
+      if (BBClient.settings.fullSessionStorageSupport) { 
         sessionStorage[state] = JSON.stringify(params);
         sessionStorage.tokenResponse = JSON.stringify({state: state});
       } else {
@@ -17410,19 +17407,19 @@ BBClient.authorize = function(params, errback){
       window.location.href = client.redirect_uri + "?state="+encodeURIComponent(state);
       return;
     }
-
+    
     sessionStorage[state] = JSON.stringify(params);
 
     console.log("sending client reg", params.client);
 
-    var redirect_to=params.provider.oauth2.authorize_uri + "?" +
+    var redirect_to=params.provider.oauth2.authorize_uri + "?" + 
       "client_id="+encodeURIComponent(client.client_id)+"&"+
       "response_type="+encodeURIComponent(params.response_type)+"&"+
       "scope="+encodeURIComponent(client.scope)+"&"+
       "redirect_uri="+encodeURIComponent(client.redirect_uri)+"&"+
       "state="+encodeURIComponent(state)+"&"+
       "aud="+encodeURIComponent(params.server);
-
+    
     if (typeof client.launch !== 'undefined' && client.launch) {
        redirect_to += "&launch="+encodeURIComponent(client.launch);
     }
@@ -17438,7 +17435,7 @@ BBClient.resolveAuthType = function (fhirServiceUrl, callback, errback) {
          url: stripTrailingSlash(fhirServiceUrl) + "/metadata"
       }).then(function(r){
           var type = "none";
-
+          
           try {
             if (r.rest[0].security.service[0].coding[0].code.toLowerCase() === "smart-on-fhir") {
                 type = "oauth2";
@@ -17481,9 +17478,9 @@ function FhirClient(p) {
       serviceUrl: p.serviceUrl,
       auth: p.auth || {type: 'none'}
     }
-
+    
     var auth = {};
-
+    
     if (server.auth.type === 'basic') {
         auth = {
             user: server.auth.username,
@@ -17494,12 +17491,12 @@ function FhirClient(p) {
             bearer: server.auth.token
         };
     }
-
+    
     client.api = fhir({
         baseUrl: server.serviceUrl,
         auth: auth
     });
-
+    
     if (p.patientId) {
         client.patient = {};
         client.patient.id = p.patientId;
@@ -17512,7 +17509,7 @@ function FhirClient(p) {
             return client.get({resource: 'Patient'});
         };
     }
-
+    
     var fhirAPI = (client.patient)?client.patient.api:client.api;
 
     client.userId = p.userId;
@@ -17522,10 +17519,10 @@ function FhirClient(p) {
     };
 
     if (!client.server.serviceUrl || !client.server.serviceUrl.match(/https?:\/\/.+[^\/]$/)) {
-      throw "Must supply a `server` property whose `serviceUrl` begins with http(s) " +
+      throw "Must supply a `server` property whose `serviceUrl` begins with http(s) " + 
         "and does NOT include a trailing slash. E.g. `https://fhir.aws.af.cm/fhir`";
     }
-
+    
     client.authenticated = function(p) {
       if (server.auth.type === 'none') {
         return p;
@@ -17547,26 +17544,26 @@ function FhirClient(p) {
     client.get = function(p) {
         var ret = Adapter.get().defer();
         var params = {type: p.resource};
-
+        
         if (p.id) {
             params["id"] = p.id;
         }
-
+          
         fhirAPI.read(params)
             .then(function(res){
                 ret.resolve(res.data);
             }, function(){
                 ret.reject("Could not fetch " + p.resource + " " + p.id);
             });
-
+          
         return ret.promise;
     };
 
     client.user = {
       'read': function(){
         var userId = client.userId;
-        var resource = userId.split("/")[userId.split("/").length - 2];
-        var uid = userId.split("/")[userId.split("/").length - 1];
+        resource = userId.split("/")[0];
+        uid = userId.split("/")[1];
         return client.get({resource: resource, id: uid});
       }
     };
